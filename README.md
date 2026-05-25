@@ -1,4 +1,4 @@
-# @flaticols/pi-pprof-tools
+# pi-pprof-tools
 
 Pi package for Go `pprof` workflows in performance-test runs.
 
