@@ -17,7 +17,8 @@
   },
   "pi": {
     "extensions": [
-      "./extensions/perf-profiler.ts"
+      "./extensions/perf-profiler.ts",
+      "./extensions/perf-metrics.ts"
     ]
   }
 }
