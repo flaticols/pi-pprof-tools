@@ -1,11 +1,11 @@
 # pi-pprof-tools
 
-Pi package for Go `pprof` workflows in performance-test runs.
+Pi package for Go `pprof` capture, analysis, comparison, and top-N display.
 
 ## Features
 
 - Capture pprof profiles from `http://localhost:6060`.
-- Analyze existing `benchmark-results/pprof-*` directories.
+- Analyze existing `pprof-data/pprof-*` directories.
 - Run `go tool pprof -top` for useful sample indexes.
 - Show top rows in a Pi widget.
 - Compare two runs by cumulative percentage delta.
