@@ -1,13 +1,15 @@
 {
   "name": "@flaticols/pi-pprof-tools",
   "version": "0.1.0",
-  "description": "Pi extension for capturing, analyzing, comparing, and rendering Go pprof tables.",
+  "description": "Pi extensions for Go pprof workflows, git worktrees, commits, shipping, and task planning.",
   "keywords": [
     "pi-package",
     "pi-extension",
     "pprof",
     "golang",
-    "performance"
+    "performance",
+    "git",
+    "worktree"
   ],
   "license": "MIT",
   "private": true,
@@ -17,7 +19,9 @@
   },
   "pi": {
     "extensions": [
-      "./extensions/perf-profiler.ts"
+      "./extensions/perf-profiler.ts",
+      "./extensions/git/index.ts",
+      "./extensions/do/index.ts"
     ]
   }
 }
