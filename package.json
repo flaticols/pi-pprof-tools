@@ -1,7 +1,7 @@
 {
   "name": "@flaticols/pi-pprof-tools",
   "version": "0.1.0",
-  "description": "Pi extension for capturing, analyzing, comparing, and displaying Go pprof profiles.",
+  "description": "Pi extension for capturing, analyzing, comparing, and rendering Go pprof tables.",
   "keywords": [
     "pi-package",
     "pi-extension",
@@ -17,8 +17,7 @@
   },
   "pi": {
     "extensions": [
-      "./extensions/perf-profiler.ts",
-      "./extensions/perf-metrics.ts"
+      "./extensions/perf-profiler.ts"
     ]
   }
 }

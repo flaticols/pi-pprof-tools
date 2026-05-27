@@ -285,7 +285,7 @@ function summarizeForAgent(snapshot: PerfSnapshot): string {
 }
 
 export default function perfWidgetExtension(pi: ExtensionAPI) {
-  const state: PerfState = { enabled: true, intervalMs: 5_000, snapshot: makeInitialSnapshot() };
+  const state: PerfState = { enabled: false, intervalMs: 5_000, snapshot: makeInitialSnapshot() };
 
   let timer: ReturnType<typeof setInterval> | undefined;
   let activeCtx: ExtensionContext | undefined;
@@ -391,9 +391,12 @@ export default function perfWidgetExtension(pi: ExtensionAPI) {
       }
 
       if (command === "once") {
-        state.enabled = true;
         activeCtx = ctx;
+        const wasEnabled = state.enabled;
+        state.enabled = true;
         await tick(ctx);
+        state.enabled = wasEnabled;
+        if (!state.enabled) stop(ctx);
         ctx.ui.notify("Performance snapshot refreshed", "info");
         return;
       }

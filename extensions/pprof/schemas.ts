@@ -22,6 +22,6 @@ export const AnalyzeParams = Type.Object({
 export const CompareParams = Type.Object({
   baselineDir: Type.String({ description: "Baseline profile directory." }),
   candidateDir: Type.String({ description: "Candidate profile directory." }),
-  category: Type.Optional(Type.String({ description: "Category id to compare, e.g. allocs:alloc_space, heap:inuse_space, cpu." })),
+  category: Type.Optional(Type.String({ description: "Category id to compare, e.g. allocs:alloc_space, heap:inuse_space, cpu:cpu." })),
   topN: Type.Optional(Type.Number({ description: "Rows to show.", default: 15 })),
 });

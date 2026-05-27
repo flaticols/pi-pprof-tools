@@ -1,13 +1,13 @@
 # pi-pprof-tools
 
-Pi package for Go `pprof` capture, analysis, comparison, and top-N display.
+Pi package for Go `pprof` capture, analysis, comparison, and top-N Markdown tables.
 
 ## Features
 
 - Capture pprof profiles from `http://localhost:6060`.
 - Analyze existing `pprof-data/pprof-*` directories.
-- Run `go tool pprof -top` for useful sample indexes.
-- Show top rows in a Pi widget.
+- Run `go tool pprof -top` for supported sample indexes (CPU samples/time, heap/alloc object+space, block/mutex delay+contentions, goroutine/threadcreate counts).
+- Render normal Markdown tables and return structured data for the LLM.
 - Compare two runs by cumulative percentage delta.
 
 ## Tools
@@ -21,8 +21,8 @@ Pi package for Go `pprof` capture, analysis, comparison, and top-N display.
 ```text
 /pprof-capture [name]
 /pprof-analyze <dir>
-/pprof-analyze off
-/pprof-widget off
+/pprof-analyze off   # clear any legacy widget
+/pprof-widget off    # clear any legacy widget
 ```
 
 ## Install

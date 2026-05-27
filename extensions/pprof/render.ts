@@ -35,23 +35,6 @@ export function markdownForSummary(ctx: ExtensionContext, summary: RunSummary, t
   return out.join("\n");
 }
 
-function widgetLines(summary: RunSummary, topN: number): string[] {
-  const lines = [`pprof: ${path.basename(summary.dir)}`];
-
-  for (const category of summary.categories.slice(0, 8)) {
-    lines.push(`${category.id.toUpperCase()}${category.total ? ` (${category.total})` : ""}`);
-    for (const row of category.rows.slice(0, topN)) {
-      lines.push(`  ${row.cumPct.toFixed(1).padStart(5)}% cum  ${row.name.slice(0, 72)}`);
-    }
-  }
-
-  return lines.slice(0, 60);
-}
-
-export function setWidget(ctx: ExtensionContext, summary: RunSummary, topN: number) {
-  ctx.ui.setWidget("pprof-top", widgetLines(summary, topN));
-}
-
 export function clearWidget(ctx: ExtensionContext) {
   ctx.ui.setWidget("pprof-top", undefined);
 }

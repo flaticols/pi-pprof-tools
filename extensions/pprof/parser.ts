@@ -26,17 +26,23 @@ export function parseTop(text: string, topN: number): { rows: TopRow[]; type?: s
   return { rows, type, total };
 }
 
-export function sampleIndices(kind: ProfileKind): (string | undefined)[] {
+export function sampleIndices(kind: ProfileKind): string[] {
   switch (kind) {
+    case "cpu":
+      return ["cpu", "samples"];
     case "heap":
       return ["inuse_space", "inuse_objects", "alloc_space", "alloc_objects"];
     case "allocs":
       return ["alloc_space", "alloc_objects"];
+    case "goroutine":
+      return ["goroutine"];
     case "mutex":
     case "block":
       return ["delay", "contentions"];
+    case "threadcreate":
+      return ["threadcreate"];
     default:
-      return [undefined];
+      return [kind];
   }
 }
 
