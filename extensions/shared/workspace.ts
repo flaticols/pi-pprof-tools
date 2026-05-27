@@ -2,7 +2,7 @@ import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-c
 import { appendFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, isAbsolute, join, resolve } from "node:path";
-import { defaultUpstream, execGit, gitOk, repoRoot, requireGit } from "./git";
+import { currentBranch, defaultUpstream, execGit, gitOk, repoRoot, requireGit } from "./git";
 import { planFileName, sanitizeBranchName, worktreeDirName } from "./names";
 import { setActiveWorkspace, type ActiveWorkspace } from "./state";
 
@@ -18,6 +18,37 @@ export interface PreparedWorkspace extends ActiveWorkspace {
   planPath?: string;
   planRelPath?: string;
   created: boolean;
+}
+
+export async function prepareCurrentWorkspace(
+  pi: ExtensionAPI,
+  ctx: ExtensionCommandContext,
+  options: { task?: string; upstream?: string; createPlan?: boolean; setActive?: boolean } = {},
+): Promise<PreparedWorkspace> {
+  const worktreePath = await repoRoot(pi, ctx.cwd, ctx.signal);
+  const branch = sanitizeBranchName(await currentBranch(pi, worktreePath, ctx.signal));
+  const upstream = options.upstream ?? (await defaultUpstream(pi, worktreePath, ctx.signal));
+
+  let planPath: string | undefined;
+  let planRelPath: string | undefined;
+  if (options.createPlan) {
+    const plan = await createIgnoredPlan(pi, worktreePath, branch, options.task?.trim() || branch, ctx.signal);
+    planPath = plan.planPath;
+    planRelPath = plan.planRelPath;
+  }
+
+  const workspace: PreparedWorkspace = {
+    repoRoot: worktreePath,
+    worktreePath,
+    branch,
+    upstream,
+    planPath,
+    planRelPath,
+    created: false,
+  };
+
+  if (options.setActive !== false) setActiveWorkspace(workspace);
+  return workspace;
 }
 
 export async function prepareWorkspace(
@@ -65,7 +96,7 @@ export async function prepareWorkspace(
   let planPath: string | undefined;
   let planRelPath: string | undefined;
   if (options.createPlan) {
-    const plan = await createIgnoredPlan(pi, worktreePath, branch, ctx.signal);
+    const plan = await createIgnoredPlan(pi, worktreePath, branch, name, ctx.signal);
     planPath = plan.planPath;
     planRelPath = plan.planRelPath;
   }
@@ -107,6 +138,7 @@ async function createIgnoredPlan(
   pi: ExtensionAPI,
   worktreePath: string,
   branch: string,
+  task: string,
   signal?: AbortSignal,
 ): Promise<{ planPath: string; planRelPath: string }> {
   const planRelPath = join("docs", "plans", planFileName(branch));
@@ -116,7 +148,7 @@ async function createIgnoredPlan(
   if (!(await pathExists(planPath))) {
     await writeFile(
       planPath,
-      `# Plan: ${branch}\n\n- [ ] Brainstorm approach\n- [ ] Inspect relevant code\n- [ ] Break implementation into steps\n- [ ] Define validation/test plan\n`,
+      `# Plan: ${task}\n\nBranch: \`${branch}\`\n\n- [ ] Brainstorm approach\n- [ ] Inspect relevant code\n- [ ] Break implementation into steps\n- [ ] Define validation/test plan\n`,
       "utf8",
     );
   }

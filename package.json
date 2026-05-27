@@ -1,10 +1,12 @@
 {
-  "name": "@flaticols/pi-pprof-tools",
+  "name": "@flaticols/pi-toys",
   "version": "0.1.0",
-  "description": "Pi extensions for Go pprof workflows, git worktrees, commits, shipping, and task planning.",
+  "description": "A collection of Pi extension toys for pprof workflows, git worktrees, commits, shipping, and task planning.",
   "keywords": [
     "pi-package",
     "pi-extension",
+    "pi-toys",
+    "toys",
     "pprof",
     "golang",
     "performance",
@@ -19,9 +21,7 @@
   },
   "pi": {
     "extensions": [
-      "./extensions/perf-profiler.ts",
-      "./extensions/git/index.ts",
-      "./extensions/do/index.ts"
+      "./extensions/pi-toys.ts"
     ]
   }
 }
